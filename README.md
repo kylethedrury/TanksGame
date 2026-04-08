@@ -87,9 +87,7 @@ python -m unittest discover -s tests -p "test_*.py"
 
 ## Write-Up
 
-- `Assignment_Writeup.tex`: LaTeX source for the assignment write-up
 - `Assignment_Writeup.pdf`: compiled write-up PDF
-- `Submission/Assignment_Writeup.pdf`: copy included with the submission package
 
 ## Project Structure
 

@@ -102,4 +102,3 @@ python -m unittest discover -s tests -p "test_*.py"
 - `src/hud.py`: HUD rendering
 - `src/game.py`: main Panda3D game loop
 - `tests/`: automated checks
-- `Submission/`: trimmed hand-in copy of the playable source project and write-up PDF

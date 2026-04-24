@@ -10,7 +10,6 @@ from panda3d.bullet import BulletHeightfieldShape, BulletRigidBodyNode, ZUp
 from panda3d.core import (
     BitMask32,
     Geom,
-    GeomLinestrips,
     GeomNode,
     GeomTriangles,
     GeomVertexData,

@@ -4,9 +4,9 @@ Two-player same-keyboard artillery game built with Panda3D and Bullet Physics fo
 
 ## Overview
 
-Tanks Hotseat is a local hotseat game: two people share one computer and play at the same time on the same keyboard. Each player controls one tank, drives across procedurally generated hills, aims a turret, jumps, and fires rapid shots, heavy shells, or a spinning chain shot. The goal is to destroy the opposing tank or force it to fall off the edge of the map.
+Tanks Hotseat is a local hotseat duel: two players share one keyboard, drive across procedurally generated hills, aim their turrets, jump, and trade shots until one tank is destroyed or falls off the map.
 
-The game is presented as a 2D side-view match, but it uses Panda3D and Bullet underneath for terrain collision, rigid body motion, projectile bounce, rolling, and destructible terrain.
+The game is presented as a 2D side view, but the simulation runs on Panda3D with Bullet rigid bodies, a heightfield terrain collider, bouncing projectiles, and live crater deformation.
 
 ## Requirements
 
@@ -17,21 +17,22 @@ The game is presented as a 2D side-view match, but it uses Panda3D and Bullet un
 
 ```powershell
 py -3.12 -m venv .venv
-.\.venv\Scripts\Activate.ps1
-python -m pip install --upgrade pip
-python -m pip install -r requirements.txt
+.\.venv\Scripts\python.exe -m pip install --upgrade pip
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
 ```
 
 ## Run
 
 ```powershell
-python main.py
+.\.venv\Scripts\python.exe main.py
 ```
 
 ## Tests
 
+Run the tests with the project virtualenv so Panda3D is available:
+
 ```powershell
-python -m unittest discover -s tests -p "test_*.py"
+.\.venv\Scripts\python.exe -m unittest discover -s tests -p "test_*.py"
 ```
 
 ## Controls
@@ -63,40 +64,36 @@ python -m unittest discover -s tests -p "test_*.py"
 ## Match Rules
 
 - Each tank starts with `100 HP`.
-- `Rapid fire` deals `5` damage and has a `0.5s` cooldown.
-- `Heavy fire` deals `20` damage and has a `3.0s` cooldown.
-- `Chain shot` fires a linked pair of spinning projectiles; each ball deals `10` damage, so a full two-ball hit deals `20` total damage. Cooldown is `1.6s`.
-- Shells can bounce, roll, and collide with other shells.
-- Ground impacts can carve craters into the terrain.
-- A tank loses if its HP reaches `0` or if it falls below the terrain kill plane.
+- `Rapid fire` deals `5` damage with a `0.5s` cooldown.
+- `Heavy fire` deals `20` damage with a `3.0s` cooldown.
+- `Chain shot` fires two linked projectiles that deal `10` damage each, for `20` total damage on a full hit. Cooldown is `1.6s`.
+- Shells can bounce, roll, collide with each other, and carve craters into the terrain.
+- A tank loses if its HP reaches `0` or if it falls below the kill plane.
 
-## Current Features
+## Features
 
-- Orthographic side-view presentation
-- Procedural finite terrain with spawn pads
-- Destructible terrain with live collision rebuilds
-- Same-keyboard 2-player hotseat play
-- Turret aiming with on-screen angle display
-- Rapid and heavy projectile types
-- Chain shot with two linked projectiles and a rope visual
-- Tank jumping
-- Tank-vs-tank elastic collision handling
-- Projectile-vs-tank damage and knockback
-- Projectile bounce and rolling behavior
-- HUD with HP, cooldowns, controls, and winner display
+- Orthographic side-view camera with constrained Bullet physics
+- Procedural terrain with flattened spawn pads
+- Destructible terrain with collision rebuilt after impacts
+- Three weapons: rapid fire, heavy fire, and chain shot
+- Tank jumping, knockback, and tank-vs-tank collision response
+- HUD for HP, aim angle, cooldowns, controls, and winner display
 
-## Write-Up
+## Repository Layout
 
+- `main.py`: lightweight entrypoint that forwards into `src/`
+- `assets/`: active game models (`Cube.egg` and `sphere.egg.pz`)
+- `src/config.py`: constants, controls, and weapon specs
+- `src/combat.py`: tank and projectile creation plus combat helpers
+- `src/terrain.py`: terrain generation, rendering, sampling, and crater carving
+- `src/hud.py`: on-screen HUD text
+- `src/game.py`: Panda3D app, fixed-step loop, contacts, and win handling
+- `tests/`: unit tests for cooldown logic and terrain shaping
+- `Assignment_Writeup.tex`: LaTeX source for the class write-up
 - `Assignment_Writeup.pdf`: compiled write-up PDF
 
-## Project Structure
+## Dependency
 
-- `main.py`: entrypoint
-- `requirements.txt`: Python dependency list
-- `assets/`: local models used by the game
-- `src/config.py`: gameplay constants and weapon specs
-- `src/terrain.py`: terrain generation and crater deformation
-- `src/combat.py`: tank and projectile creation/state helpers
-- `src/hud.py`: HUD rendering
-- `src/game.py`: main Panda3D game loop
-- `tests/`: automated checks
+```text
+Panda3D==1.10.16
+```
